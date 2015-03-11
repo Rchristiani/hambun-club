@@ -2,4 +2,4 @@
 
 Hambun Club!!!
 
-![Hambun](public/imgs/hb/.png);
+![Hambun](public/imgs/hb.png)
