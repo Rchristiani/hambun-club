@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="HamBun">
+<head>
+	<meta charset="UTF-8">
+	<title>Hambun Club</title>
+	<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="shortcut icon" href="images/">
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="js/hambun.js"></script>
+</head>
+<body ng-controller="BunController">
+	<header>
+		<img src="imgs/hb.png" alt="">
+		<h1>Hambun</h1>
+	<!-- 	<nav class="controls">
+			<a href="#" ng-click="ratio">RATIO</a>
+		</nav> -->
+	</header>
+	<section class="wrapper">
+		<div class="add-form">
+			<form ng-submit="addNew()">
+				<input type="text" placeholder="Name" class="name">
+				<input type="text" placeholder="Ham or Bun" class="item">
+				<input type="submit" value="Slam it">
+			</form>
+		</div>
+		<div class="list">
+			<div ng-if="items.length === 0" class="empty">
+				<p>No BUNS!</p>
+			</div>
+			<div ng-repeat="item in items" class="item-container">
+				<div class="name-item">
+					<p><span class="name">{{item.name}}</span> - <span class="item">{{item.item}}</span></p>
+				</div>
+				<div class="controls">
+					<span class="edit" ng-click="edit()">edit</span>
+					<span class="delete" ng-click="delete($index)">delete</span>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>
+
+
+
+
+
