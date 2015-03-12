@@ -64,8 +64,17 @@ app.controller('BunController', function($scope,Buns,$cookies) {
 });
 
 app.factory('Buns', function($http,$q) {
-	var url = "http://localhost:4005";
+	var url = (function() {
+		var url = document.location.origin.split(':');
+		if(url[2] === '4000') {
+			return document.location.origin + ':4005';
+		}
+		else {
+			return document.location.origin;
+		}
+	})();
 
+	console.log(url);
 	return {
 		getBuns: function() {
 			var def = $q.defer();
