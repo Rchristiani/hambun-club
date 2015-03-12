@@ -9,6 +9,13 @@ var api = require('./api/index.js');
 
 var TwitterStrategy = require('passport-twitter').Strategy;
 
+app.use(function(req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', 'http://hambun.club');
+  	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  	res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
+    next();
+});
+
 app.use(cookies());
 
 app.use(session({  
