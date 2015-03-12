@@ -75,7 +75,7 @@ app.get(
 	passport.authenticate('twitter', 
 	{ 
 		successRedirect: '/',
-		failureRedirect: '/login' 
+		failureRedirect: '/auth/twitter' 
 	})
 );
 
