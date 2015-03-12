@@ -2,7 +2,7 @@ var app = angular.module('HamBun', ['ngCookies']);
 
 app.controller('BunController', function($scope,Buns,$cookies) {
 	var user = $cookies['hambun-login'];
-	if(user !== 'false') {
+	if(user !== undefined && user !== 'false') {
 		$scope.loggedin = true;
 		$scope.user = JSON.parse(user);
 	}
@@ -66,15 +66,14 @@ app.controller('BunController', function($scope,Buns,$cookies) {
 app.factory('Buns', function($http,$q) {
 	var url = (function() {
 		var url = document.location.origin.split(':');
-		if(url[2] === '4000') {
-			return document.location.origin + ':4005';
+		if(url[2] === '4005') {
+			return document.location.origin;
 		}
 		else {
-			return document.location.origin;
+			return document.location.origin + ':4005';
 		}
 	})();
 
-	console.log(url);
 	return {
 		getBuns: function() {
 			var def = $q.defer();
