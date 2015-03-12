@@ -71,6 +71,8 @@ header {
     float: left; }
   .item-container .name-item {
     width: 80%; }
+  .item-container .editing {
+    border-bottom: 1px solid black; }
   .item-container .controls {
     width: 20%;
     text-align: right; }
@@ -79,4 +81,18 @@ header {
       padding: 5px 10px;
       border-radius: 3px;
       margin-top: 10px;
-      display: inline-block; }
+      display: inline-block;
+      transition: all 0.1s ease; }
+      .item-container .controls span:hover {
+        background: #b25d49;
+        color: #fff;
+        border-color: #b25d49; }
+      .item-container .controls span.save:hover {
+        cursor: pointer;
+        color: #555;
+        background: #47E555;
+        border-color: #47E555; }
+      .item-container .controls span.delete:hover {
+        color: #fff;
+        background: #B2281D;
+        border-color: #B2281D; }

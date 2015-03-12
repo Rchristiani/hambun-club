@@ -85,6 +85,9 @@ header {
 	.name-item {
 		width: 80%;
 	}
+	.editing {
+		border-bottom: 1px solid black;
+	}
 	.controls {
 		width: 20%;
 		text-align: right;
@@ -94,6 +97,23 @@ header {
 			border-radius: 3px;
 			margin-top: 10px;
 			display: inline-block;
+			transition: all 0.1s ease;
+			&:hover {
+				background: $orange;
+				color: #fff;
+				border-color: $orange;
+			}
+			&.save:hover {
+				cursor: pointer;
+				color: #555;
+				background: #47E555;
+				border-color: #47E555;
+			}
+			&.delete:hover {
+				color: #fff;
+				background: #B2281D;
+				border-color: #B2281D;
+			}
 		}
 	}
 }

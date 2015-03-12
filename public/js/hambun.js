@@ -1,9 +1,11 @@
-var app = angular.module('HamBun', []);
+var app = angular.module('HamBun', ['ngCookies']);
 
-app.controller('BunController', function($scope,Buns) {
+app.controller('BunController', function($scope,Buns,$cookies) {
+	console.log($cookies);
 	Buns.getBuns().then(function(res) {
 		$scope.items = res;
 	});
+	
 	$scope.addNew = function() {
 		var model = {
 			name: $('.name').val(),
@@ -11,12 +13,40 @@ app.controller('BunController', function($scope,Buns) {
 		};
 		Buns.postBuns(model).then(function(res) {
 			$scope.items.unshift(res);
+			$('.name').val('');
+			$('.item').val('');
 		});
 	};
-	$scope.edit = function() {
-		var item = this.item;
-		console.log(this);
-	}
+	
+	$scope.edit = function(e) {
+		var index = this.$index;
+		var $el = $(e.target);
+		var $elParent= $el.parent().parent();
+		$scope.items[index].editing = true;
+		$elParent.find('.name').addClass('editing').attr('contentEditable','true');
+		$elParent.find('.item').addClass('editing').attr('contentEditable','true');
+	};
+	
+	$scope.save = function(e) {
+		var index = this.$index;
+		$scope.items[index].editing = false;
+		var $el = $(e.target);
+		var $elParent= $el.parent().parent();
+		var model = {
+			_id: this.item._id,
+			name:  $elParent.find('.name').text(),
+			item: $elParent.find('.item').text()
+		};
+		$elParent.find('.name').removeClass('editing').removeAttr('contentEditable');
+		$elParent.find('.item').removeClass('editing').removeAttr('contentEditable');
+		console.log(model);
+		Buns.edit(model).then(function(res) {
+			if(res.status === 'success') {
+				$scope.items[index].editing = false;
+			}
+		});
+	};
+
 	$scope.delete = function($index) {
 		var item = $scope.items[$index];
 		Buns.delete(item._id).then(function(res) {
@@ -24,7 +54,7 @@ app.controller('BunController', function($scope,Buns) {
 				$scope.items.splice($index,1);
 			}
 		});
-	}
+	};
 });
 
 app.factory('Buns', function($http,$q) {
@@ -51,6 +81,13 @@ app.factory('Buns', function($http,$q) {
 				.success(def.resolve);
 
 			return def.promise;
-		}
+		},
+		edit: function(model) {
+			var def = $q.defer();
+			$http.post(url+'/api/buns/edit',{model:model})
+				.success(def.resolve);
+
+			return def.promise;
+		}	
 	}
 });

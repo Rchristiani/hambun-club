@@ -7,16 +7,17 @@
 	<link rel="stylesheet" href="css/style.css">
 	<link rel="shortcut icon" href="images/">
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
-	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-cookies.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="js/hambun.js"></script>
 </head>
 <body ng-controller="BunController">
 	<header>
 		<img src="imgs/hb.png" alt="">
 		<h1>Hambun</h1>
-	<!-- 	<nav class="controls">
-			<a href="#" ng-click="ratio">RATIO</a>
-		</nav> -->
+		<nav class="controls">
+			<a href="/auth/twitter">Sign in with Twitter</a>
+		</nav>
 	</header>
 	<section class="wrapper">
 		<div class="add-form">
@@ -35,7 +36,8 @@
 					<p><span class="name">{{item.name}}</span> - <span class="item">{{item.item}}</span></p>
 				</div>
 				<div class="controls">
-					<span class="edit" ng-click="edit()">edit</span>
+					<span class="save" ng-click="save($event)" ng-if="item.editing === true">save</span>
+					<span class="edit" ng-click="edit($event)" ng-if="item.editing != true">edit</span>
 					<span class="delete" ng-click="delete($index)">delete</span>
 				</div>
 			</div>
