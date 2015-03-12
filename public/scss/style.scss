@@ -80,10 +80,16 @@ header {
 		font-weight: 700;
 		border-radius: 3px;
 		font-size: 20px;
+		&:hover {
+			cursor: pointer;
+		}
 	}
 	input[type="text"],
 	input[type="submit"] {
 		float: left;
+	}
+	@media screen and (max-width: 960px) {
+		width: 90%;
 	}
 }
 .empty {
@@ -116,10 +122,15 @@ header {
 			margin-top: 10px;
 			display: inline-block;
 			transition: all 0.1s ease;
+			-moz-user-select: none;
+  			-webkit-user-select: none;
+  			-ms-user-select: none;
+  			user-select: none;
 			&:hover {
 				background: $orange;
 				color: #fff;
 				border-color: $orange;
+				cursor: pointer;
 			}
 			&.save:hover {
 				cursor: pointer;

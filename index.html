@@ -19,7 +19,7 @@
 			<a href="/auth/twitter" ng-if="!loggedin">Sign in</a>
 		</nav>
 		<div class="profile" ng-if="loggedin">
-			<img src="{{user.image}}" alt="">
+			<img ng-src="{{user.image}}" alt="">
 			<p>Hi {{user.name}}!</p>
 		</div>
 	</header>

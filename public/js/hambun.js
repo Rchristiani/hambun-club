@@ -20,17 +20,19 @@ app.controller('BunController', function($scope,Buns,$cookies) {
 	});
 	
 	$scope.addNew = function() {
-		var model = {
-			name: $('.name').val(),
-			item: $('.item').val()
-		};
-		Buns.postBuns(model).then(function(res) {
-			if(res.status !== 'error') {
-				$scope.items.push(res);
-				$('.name').val($scope.user.name);
-				$('.item').val('');
-			}
-		});
+		if($('.item').val().trim() !== '') {
+			var model = {
+				name: $('.name').val(),
+				item: $('.item').val()
+			};
+			Buns.postBuns(model).then(function(res) {
+				if(res.status !== 'error') {
+					$scope.items.push(res);
+					$('.name').val($scope.user.name);
+					$('.item').val('');
+				}
+			});
+		}
 	};
 	
 	$scope.edit = function(e) {
