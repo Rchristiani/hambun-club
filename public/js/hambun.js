@@ -1,5 +1,14 @@
 var app = angular.module('HamBun', ['ngCookies']);
 
+app.filter('reverse', function () {
+	return function (items) {
+		if (!angular.isArray(items)) {
+			return false;
+		}
+		return items.slice().reverse();
+	};
+});
+
 app.controller('BunController', function($scope,Buns,$cookies) {
 	var user = $cookies['hambun-login'];
 	if(user !== undefined && user !== 'false') {
@@ -17,7 +26,7 @@ app.controller('BunController', function($scope,Buns,$cookies) {
 		};
 		Buns.postBuns(model).then(function(res) {
 			if(res.status !== 'error') {
-				$scope.items.unshift(res);
+				$scope.items.push(res);
 				$('.name').val('');
 				$('.item').val('');
 			}

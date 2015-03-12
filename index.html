@@ -35,7 +35,7 @@
 			<div ng-if="items.length === 0" class="empty">
 				<p>No BUNS!</p>
 			</div>
-			<div ng-repeat="item in items" class="item-container">
+			<div ng-repeat="item in items | reverse" class="item-container">
 				<div class="name-item">
 					<p><span class="name">{{item.name}}</span> - <span class="item">{{item.item}}</span></p>
 				</div>
