@@ -16,13 +16,17 @@
 		<img src="imgs/hb.png" alt="">
 		<h1>Hambun</h1>
 		<nav class="controls">
-			<a href="/auth/twitter">Sign in with Twitter</a>
+			<a href="/auth/twitter" ng-if="!loggedin">Sign in</a>
 		</nav>
+		<div class="profile" ng-if="loggedin">
+			<img src="{{user.image}}" alt="">
+			<p>Hi {{user.name}}!</p>
+		</div>
 	</header>
 	<section class="wrapper">
-		<div class="add-form">
+		<div class="add-form" ng-if="loggedin">
 			<form ng-submit="addNew()">
-				<input type="text" placeholder="Name" class="name">
+				<input type="text" placeholder="{{user.name}}" class="name">
 				<input type="text" placeholder="Ham or Bun" class="item">
 				<input type="submit" value="Slam it">
 			</form>
@@ -35,7 +39,7 @@
 				<div class="name-item">
 					<p><span class="name">{{item.name}}</span> - <span class="item">{{item.item}}</span></p>
 				</div>
-				<div class="controls">
+				<div class="controls" ng-if="loggedin">
 					<span class="save" ng-click="save($event)" ng-if="item.editing === true">save</span>
 					<span class="edit" ng-click="edit($event)" ng-if="item.editing != true">edit</span>
 					<span class="delete" ng-click="delete($index)">delete</span>

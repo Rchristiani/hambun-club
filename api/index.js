@@ -15,7 +15,8 @@ var itemModel = mongoose.model('items',ItemSchema);
 
 var UserSchema = new mongoose.Schema({
 	user: 'string',
-	image: 'string'
+	image: 'string',
+	token: 'string'
 });
 
 var userModel = mongoose.model('users', UserSchema);
@@ -28,69 +29,100 @@ function getBuns(req,res) {
 
 function createBun(req, res) {
 	var model = req.body;
-	new itemModel(model.model).save(function(err,doc) {
-		if(err) {
-			res.send(err);
-		}
-		else res.send(doc);
-	});
+	if(req.isAuthenticated()) {
+		new itemModel(model.model).save(function(err,doc) {
+			if(err) {
+				res.send({status: err});
+			}
+			else res.send(doc);
+		});
+	}
+	else {
+		res.send({
+			status: 'error',
+			message: 'Please login to add an item.'
+		});
+	}
 };
 
 function deleteBun(req, res) {
 	var id = req.body.id;
-	itemModel.findOne({_id: id}, function(err, doc) {
-		doc.remove(function(err, status){
-			res.send({status: 'success'});
+	if(req.isAuthenticated()) {
+		itemModel.findOne({_id: id}, function(err, doc) {
+			doc.remove(function(err, status){
+				res.send({status: 'success'});
+			});
 		});
-	});
+	}
+	else {
+		res.send({
+			status: 'error',
+			message: 'Please login to delete an item.'
+		});
+	}
 }
 
 function editBun(req,res) {
 	var model = req.body.model;
-	itemModel.where({_id:model._id}).update(model,function(err,doc) {
-		if(err) {
-			res.send({status: 'error'});
-		}
-		else {
-			res.send({status: 'success'});
-		}
-	});
+	if(req.isAuthenticated()) {
+		itemModel.where({_id:model._id}).update(model,function(err,doc) {
+			if(err) {
+				res.send({status: 'error'});
+			}
+			else {
+				res.send({status: 'success'});
+			}
+		});
+	}
+	else {
+		res.send({
+			status: 'error',
+			message: 'Please login to edit an item.'
+		});
+	}
 }
 
 var twitterLogin = new TwitterStrategy({
-    consumerKey: twitter.key,
-    consumerSecret: twitter.secret,
-    callbackURL: "http://localhost:4005/auth/twitter/callback"
-  },
-  function(token, tokenSecret, profile, done) {
-  	userModel.find({name: profile.name}, function(err,doc) {
-  		if(err) {
-  			done(err);
-  		}
-  		if(doc.length === 0) {
-  			new userModel({
-  				user: profile.username,
-  				image: profile.photos[0].value
-  			}).save(function(err,user) {
-  				if(err) {
-  					done(err);
-  				}
-  				else {
-  					done(null, user);
-  				}
-  			});
-  		}
-  		else {
-  			done(null,doc);
-  		}
-  	});
-  }
+		consumerKey: twitter.key,
+		consumerSecret: twitter.secret,
+		callbackURL: "http://localhost:4005/auth/twitter/callback"
+	},
+	function(token, tokenSecret, profile, done) {
+		userModel.find({name: profile.username}, function(err,doc) {
+			if(err) {
+				done(err);
+			}
+			if(doc.length === 0) {
+				new userModel({
+					user: profile.username,
+					image: profile.photos[0].value,
+					token: token
+				}).save(function(err,user) {
+					if(err) {
+						done(err);
+					}
+					else {
+						done(null, user);
+					}
+				});
+			}
+			else {
+				done(null,doc);
+			}
+		});
+	}
 );
+
+
+function getUser(req,res) {
+
+}
 
 module.exports = {
 	getBuns : getBuns,
 	createBun: createBun,
 	deleteBun: deleteBun,
 	editBun: editBun,
-	twitterLogin: twitterLogin
+	twitterLogin: twitterLogin,
+	getUser : getUser
 };

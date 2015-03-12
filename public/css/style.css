@@ -30,6 +30,20 @@ header {
       header .controls a:hover {
         color: #fff;
         background: #b25d49; }
+  header .profile {
+    display: inline-block;
+    float: right;
+    margin-top: 20px; }
+    header .profile img {
+      float: left;
+      width: 30%;
+      border-radius: 50%; }
+    header .profile p {
+      float: left;
+      width: 70%;
+      margin: 0;
+      padding-top: 10px;
+      padding-left: 10px; }
 
 .wrapper {
   width: 80%;

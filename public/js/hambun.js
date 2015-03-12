@@ -1,7 +1,11 @@
 var app = angular.module('HamBun', ['ngCookies']);
 
 app.controller('BunController', function($scope,Buns,$cookies) {
-	console.log($cookies);
+	var user = $cookies['hambun-login'];
+	if(user !== 'false') {
+		$scope.loggedin = true;
+		$scope.user = JSON.parse(user);
+	}
 	Buns.getBuns().then(function(res) {
 		$scope.items = res;
 	});
@@ -12,9 +16,11 @@ app.controller('BunController', function($scope,Buns,$cookies) {
 			item: $('.item').val()
 		};
 		Buns.postBuns(model).then(function(res) {
-			$scope.items.unshift(res);
-			$('.name').val('');
-			$('.item').val('');
+			if(res.status !== 'error') {
+				$scope.items.unshift(res);
+				$('.name').val('');
+				$('.item').val('');
+			}
 		});
 	};
 	
@@ -39,7 +45,7 @@ app.controller('BunController', function($scope,Buns,$cookies) {
 		};
 		$elParent.find('.name').removeClass('editing').removeAttr('contentEditable');
 		$elParent.find('.item').removeClass('editing').removeAttr('contentEditable');
-		console.log(model);
+		
 		Buns.edit(model).then(function(res) {
 			if(res.status === 'success') {
 				$scope.items[index].editing = false;

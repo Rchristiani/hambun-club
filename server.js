@@ -11,10 +11,10 @@ var TwitterStrategy = require('passport-twitter').Strategy;
 
 app.use(cookies());
 
-app.use(session({ 
-	secret: 'hambun club',
-	resave: true,
-    saveUninitialized: true
+app.use(session({  
+		secret: 'hambun club',
+		resave: true,
+    	saveUninitialized: true
 	})
 );
 app.use(bodyParse.json());
@@ -34,7 +34,16 @@ passport.deserializeUser(function(user, done) {
 });
 
 app.use(function(req,res,next) {
-	res.cookie("hambun-login", "true", { maxAage:120000, httpOnly: false });
+	if(req.isAuthenticated()) {
+		var user = {
+			name: req.user.user,
+			image: req.user.image
+		};
+		res.cookie("hambun-login", JSON.stringify(user), { maxAage:120000, httpOnly: false });
+	}
+	else {
+		res.cookie("hambun-login", "false", { maxAage:120000, httpOnly: false });
+	}
 	next();
 });
 
@@ -62,6 +71,9 @@ app.get(
 		failureRedirect: '/login' 
 	})
 );
+
+app.get('api/getUser', api.getUser);
+
 
 app.listen('4005');
 
