@@ -85,7 +85,7 @@ function editBun(req,res) {
 var twitterLogin = new TwitterStrategy({
 		consumerKey: twitter.key,
 		consumerSecret: twitter.secret,
-		callbackURL: "http://localhost:4005/auth/twitter/callback"
+		callbackURL: twitter.callback
 	},
 	function(token, tokenSecret, profile, done) {
 		userModel.find({name: profile.username}, function(err,doc) {
