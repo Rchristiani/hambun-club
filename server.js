@@ -46,7 +46,6 @@ app.use(function(req,res,next) {
 			name: req.user.user,
 			image: req.user.image
 		};
-		console.log("user:" , user);
 		res.cookie("hambun-login", JSON.stringify(user), { maxAage:120000, httpOnly: false });
 	}
 	else {

@@ -34,7 +34,7 @@ app.controller('BunController', function($scope,Buns,$cookies) {
 	};
 	
 	$scope.edit = function(e) {
-		var index = this.$index;
+		var index = $scope.items.indexOf(this.item);
 		var $el = $(e.target);
 		var $elParent= $el.parent().parent();
 		$scope.items[index].editing = true;
@@ -43,7 +43,7 @@ app.controller('BunController', function($scope,Buns,$cookies) {
 	};
 	
 	$scope.save = function(e) {
-		var index = this.$index;
+		var index = $scope.items.indexOf(this.item);
 		$scope.items[index].editing = false;
 		var $el = $(e.target);
 		var $elParent= $el.parent().parent();
@@ -63,11 +63,11 @@ app.controller('BunController', function($scope,Buns,$cookies) {
 	};
 
 	$scope.delete = function($index) {
-		var item = $scope.items[$index];
-		console.log(item);
+		var index = $scope.items.indexOf(this.item);
+		var item = $scope.items[index];
 		Buns.delete(item._id).then(function(res) {
 			if(res.status === 'success') {
-				$scope.items.splice($index,1);
+				$scope.items.splice(index,1);
 			}
 		});
 	};
