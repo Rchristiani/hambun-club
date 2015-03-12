@@ -27,7 +27,7 @@ app.controller('BunController', function($scope,Buns,$cookies) {
 		Buns.postBuns(model).then(function(res) {
 			if(res.status !== 'error') {
 				$scope.items.push(res);
-				$('.name').val('');
+				$('.name').val($scope.user.name);
 				$('.item').val('');
 			}
 		});
@@ -64,6 +64,7 @@ app.controller('BunController', function($scope,Buns,$cookies) {
 
 	$scope.delete = function($index) {
 		var item = $scope.items[$index];
+		console.log(item);
 		Buns.delete(item._id).then(function(res) {
 			if(res.status === 'success') {
 				$scope.items.splice($index,1);

@@ -83,12 +83,12 @@ function editBun(req,res) {
 }
 
 var twitterLogin = new TwitterStrategy({
-		consumerKey: twitter.key,
+		consumerKey: twitter.key, 
 		consumerSecret: twitter.secret,
 		callbackURL: twitter.callback
 	},
 	function(token, tokenSecret, profile, done) {
-		userModel.find({name: profile.username}, function(err,doc) {
+		userModel.find({user: profile.username}, function(err,doc) {
 			if(err) {
 				done(err);
 			}
@@ -107,7 +107,7 @@ var twitterLogin = new TwitterStrategy({
 				});
 			}
 			else {
-				done(null,doc);
+				done(null,doc[0]);
 			}
 		});
 	}
